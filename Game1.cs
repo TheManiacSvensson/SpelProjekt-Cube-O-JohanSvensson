@@ -109,7 +109,6 @@ namespace Cubo_o_n_anti_cube
             //Exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
-
             //Input refresh
             OldKeyboardInput = Keyboardinput;
             Keyboardinput = Keyboard.GetState();
@@ -121,9 +120,6 @@ namespace Cubo_o_n_anti_cube
 
                 DifficultySettings();
             }
-
-
-
             //Gamerules
             if (Scene == 1)
             {
@@ -134,7 +130,6 @@ namespace Cubo_o_n_anti_cube
 
                 GameBorder();
             }
-
             //Timer & health
             if (TimeTheNumber > 1)
             {
@@ -237,10 +232,10 @@ namespace Cubo_o_n_anti_cube
 
         }
 
-        void ChangeSceneMethod(int changescene)
+        void ChangeSceneMethod(int ChangeSceneTo)
         {
             //Change the scene
-            Scene = changescene;
+            Scene = ChangeSceneTo;
         }
         void DifficultySettings ()
         {
