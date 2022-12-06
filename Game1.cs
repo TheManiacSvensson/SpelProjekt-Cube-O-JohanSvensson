@@ -35,6 +35,7 @@ namespace Cubo_o_n_anti_cube
         int Difficulty = 0;
         int Scene = 0;
         int Score = 0;
+        int highscore;
         float AntiCubeSpeed = 0.040f;
 
         //Soundeffects & Music
@@ -48,6 +49,8 @@ namespace Cubo_o_n_anti_cube
         Vector2 TimeTheStringPlacement = new Vector2(18, 0);
         Vector2 ScorePlacement = new Vector2(90, 30);
         Vector2 ScoreTheStringPlacement = new Vector2(18, 30);
+        Vector2 HighscorePlacement = new Vector2(116, 50);
+        Vector2 HighscoretheStringPlacement = new Vector2(18, 50);
         Vector2 DifficultyPlacement = new Vector2(96, 21);
         Vector2 DifficultyTheStringPlacement = new Vector2(10, 20);
         Vector2 DifficultyPromptPlacement = new Vector2(160, 22);
@@ -65,9 +68,11 @@ namespace Cubo_o_n_anti_cube
         string OHNOmessage = ("Oh no... Cluster saw me, i have to run!");
         string Looser = ("You lost");
         string Escapeforexit = ("Press esc to ex it the game");
-        string GameDifficultyPrompt = ("To increase the difficulty press B, N to lower(there is 5 difficulties)");
+        string SpaceToTryAgain = ("Press space to try again");
+        string GameDifficultyPrompt = ("To increase the difficulty press B, N to lower");
         string DifficultyTheString = ("Difficulty:");
         string ScoreTheString = ("Score:");
+        string HighscoreTheString = ("Highscore:");
         
 
         
@@ -75,8 +80,6 @@ namespace Cubo_o_n_anti_cube
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            IsMouseVisible = true;
-
         }
 
         protected override void Initialize()
@@ -159,7 +162,11 @@ namespace Cubo_o_n_anti_cube
                     DrawGame();
                     break;
                 case 2:
+                    GameScoreSystem();
                     DrawEndScreen();
+                    break;
+                case 3:
+                    DrawMenu();
                     break;
                 default:
                     break;
@@ -196,6 +203,11 @@ namespace Cubo_o_n_anti_cube
                 ChangeSceneMethod(1);
                 SpottedAlert.Play();
             }
+            if (highscore > 0)
+            {
+                spriteBatch.DrawString(SideMessages, highscore.ToString(), HighscorePlacement, Color.Black);
+                spriteBatch.DrawString(SideMessages, HighscoreTheString, HighscoretheStringPlacement, Color.Black);
+            }
             spriteBatch.End();
         }
         void DrawGame()
@@ -214,14 +226,33 @@ namespace Cubo_o_n_anti_cube
         void DrawEndScreen()
         {
             //End screen
-            Score = Difficulty * Lifetimer;
+            
             GraphicsDevice.Clear(Color.MediumAquamarine);
             spriteBatch.Begin();
+            spriteBatch.DrawString(AnyButtonFont, SpaceToTryAgain, AnybuttonPlacement, Color.Black);
             spriteBatch.DrawString(SideMessages, Lifetimer.ToString(), TimerPlacement, Color.DarkGreen);
             spriteBatch.DrawString(SideMessages, TimeTheString, TimeTheStringPlacement, Color.Black);
             spriteBatch.DrawString(SideMessages, Score.ToString(), ScorePlacement, Color.Black);
             spriteBatch.DrawString(SideMessages, ScoreTheString, ScoreTheStringPlacement, Color.Black);
+            if (highscore > 0)
+            {
+                spriteBatch.DrawString(SideMessages, highscore.ToString(), HighscorePlacement, Color.Black);
+                spriteBatch.DrawString(SideMessages, HighscoreTheString, HighscoretheStringPlacement, Color.Black);
+            }
+            if (SpacePressed())
+            {
+                ChangeSceneMethod(0);
+            }
             spriteBatch.End();
+        }
+        void GameScoreSystem()
+        {
+            Score = Difficulty * Lifetimer;
+
+            if (highscore < Score)
+            {
+                highscore = Score;
+            }
         }
         void ChangeSceneMethod(int ChangeSceneTo)
         {
