@@ -244,34 +244,42 @@ namespace Cubo_o_n_anti_cube
         }
         void DifficultySettings ()
         {
-            //Difficulty setting
+            //Difficulty setting (Speed for the enemy)
             if (Keyboardinput.IsKeyDown(Keys.B) && OldKeyboardInput.IsKeyUp(Keys.B) && Scene == 0)
             {
                 Difficulty++;
             }
-            if (Difficulty == 1)
+            switch (Difficulty)
             {
-                AntiCubeSpeed = 0.06f;
+                case 0:
+                    AntiCubeSpeed = 0.04f;
+                        break;
+                    case 1:
+                    AntiCubeSpeed = 0.06f;
+                    break;
+                        case 2:
+                    AntiCubeSpeed = 0.068f;
+                    break;
+                            case 3:
+                    AntiCubeSpeed = 0.071f;
+                    break;
+                                case 4:
+                    AntiCubeSpeed = 0.0725f;
+                    break;
+                                    case 5:
+                    AntiCubeSpeed = 0.0735f;
+                    break;
+                                        case 6:
+                    Difficulty = 5;
+                    break;
+
+
+                default:
+                    break;
             }
-            if (Difficulty == 2)
+            if (AntiCubeSpeed <= 0.0735f)
             {
-                AntiCubeSpeed = 0.068f;
-            }
-            if (Difficulty == 3)
-            {
-                AntiCubeSpeed = 0.071f;
-            }
-            if (Difficulty == 4)
-            {
-                AntiCubeSpeed = 0.0725f;
-            }
-            if (Difficulty == 5)
-            {
-                AntiCubeSpeed = 0.0735f;
-            }
-            if (Difficulty >= 6)
-            {
-                Difficulty = 5;
+                AntiCubeSpeed += 0.0001f;
             }
             if (Keyboardinput.IsKeyDown(Keys.N) && OldKeyboardInput.IsKeyUp(Keys.N) && Scene == 0)
             {
@@ -284,7 +292,7 @@ namespace Cubo_o_n_anti_cube
         }
         bool SpacePressed()
         {
-            //Checking if space is pressed when starting the game
+            //Checking if space is pressed when starting the game in the main menu
             if (Keyboardinput.IsKeyDown(Keys.Space) && OldKeyboardInput.IsKeyDown(Keys.Space))
             {
                 return true;
