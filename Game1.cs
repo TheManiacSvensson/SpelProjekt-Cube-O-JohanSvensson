@@ -13,6 +13,8 @@ namespace Cubo_o_n_anti_cube
         private GraphicsDeviceManager graphics;
         private SpriteBatch spriteBatch;
 
+        //Background
+        Texture2D Background;
         //Sprites
         Texture2D MainCube;
         Texture2D AntiCube;
@@ -42,6 +44,7 @@ namespace Cubo_o_n_anti_cube
         //Message placement & fonts
         SpriteFont SideMessages;
         SpriteFont AnyButtonFont;
+        Vector2 TopleftSide = new Vector2(0, 0);
         Vector2 TimerPlacement = new Vector2(70, 0);
         Vector2 TimeTheStringPlacement = new Vector2(18, 0);
         Vector2 ScorePlacement = new Vector2(90, 30);
@@ -96,13 +99,12 @@ namespace Cubo_o_n_anti_cube
             SideMessages = Content.Load<SpriteFont>("File");
             AnyButtonFont = Content.Load<SpriteFont>("Arial");
             Skully = Content.Load<Texture2D>("Dryskully");
+            Background = Content.Load <Texture2D>("Grassfieldgreen");
 
             //Music Credit: SoundImage:org
             SpottedAlert = Content.Load<SoundEffect>("tindeck_1");
             InGameMusic = Content.Load<Song>("InGameMusic");
-
         }
-
 
         protected override void Update(GameTime gameTime)
         {
@@ -145,7 +147,6 @@ namespace Cubo_o_n_anti_cube
             }
             base.Update(gameTime);
         }
-
         protected override void Draw(GameTime gameTime)
         {
             //Change scene
@@ -167,15 +168,12 @@ namespace Cubo_o_n_anti_cube
                 default:
                     break;
             }
-
             //Lore text & Death
             spriteBatch.Begin();
-
             if (Lifetimer < 6 && Scene == 1)
             {
                 spriteBatch.DrawString(SideMessages, OHNOmessage, new Vector2(MainCubeRectangle.X, MainCubeRectangle.Y - 50), Color.Black);
             }
- 
             if (Health <= 0)
             {
                 spriteBatch.Draw(Skully, MainCubeRectangle, Color.White);
@@ -197,7 +195,6 @@ namespace Cubo_o_n_anti_cube
             spriteBatch.DrawString(SideMessages, Difficulty.ToString(), DifficultyPlacement, Color.Red);
             spriteBatch.DrawString(SideMessages, DifficultyTheString, DifficultyTheStringPlacement, Color.Red);
             spriteBatch.DrawString(SideMessages, TheRules, RulePlacement, Color.Black);
-            
             if (SpacePressed())
             {
                 ChangeSceneMethod(1);
@@ -212,6 +209,7 @@ namespace Cubo_o_n_anti_cube
 
             //Load up all the sprites and messages when starting the game
             spriteBatch.Begin();
+            spriteBatch.Draw(Background, TopleftSide, Color.White);
             spriteBatch.DrawString(SideMessages, TimeTheString, TimeTheStringPlacement, Color.Black);
             spriteBatch.DrawString(SideMessages, Lifetimer.ToString(), TimerPlacement, Color.Black);
             spriteBatch.Draw(MainCube, MainCubeRectangle, Color.White);
@@ -229,9 +227,7 @@ namespace Cubo_o_n_anti_cube
             spriteBatch.DrawString(SideMessages, Score.ToString(), ScorePlacement, Color.Black);
             spriteBatch.DrawString(SideMessages, ScoreTheString, ScoreTheStringPlacement, Color.Black);
             spriteBatch.End();
-
         }
-
         void ChangeSceneMethod(int ChangeSceneTo)
         {
             //Change the scene
@@ -302,12 +298,16 @@ namespace Cubo_o_n_anti_cube
             //Ai movement
             float DifferenceX = MainCubeRectangle.X - (AnticubePlacement.X + (AntiCube.Width - MainCube.Width));
             float DifferenceY = MainCubeRectangle.Y - (AnticubePlacement.Y + (AntiCube.Height - MainCube.Height));
-
-            if (Lifetimer >= 2)
+            if (AnticubePlacement.X > MainCubeRectangle.X)
+            {
+                AnticubePlacement.X -= 3;
+            }
+            if (Lifetimer >= 4)
             {
                 AnticubePlacement.X += DifferenceX * AntiCubeSpeed;
                 AnticubePlacement.Y += DifferenceY * AntiCubeSpeed;
             }
+
 
         }
         void PlayerMovement()
