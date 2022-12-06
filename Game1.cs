@@ -150,10 +150,6 @@ namespace Cubo_o_n_anti_cube
         protected override void Draw(GameTime gameTime)
         {
             //Change scene
-            if (Scene == 0)
-            {
-                DrawMenu();
-            }
             switch (Scene)
             {
                 case 0:
