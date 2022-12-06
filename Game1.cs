@@ -39,7 +39,6 @@ namespace Cubo_o_n_anti_cube
 
         //Soundeffects & Music
         SoundEffect SpottedAlert;
-        Song InGameMusic;
 
         //Message placement & fonts
         SpriteFont SideMessages;
@@ -103,7 +102,6 @@ namespace Cubo_o_n_anti_cube
 
             //Music Credit: SoundImage:org
             SpottedAlert = Content.Load<SoundEffect>("tindeck_1");
-            InGameMusic = Content.Load<Song>("InGameMusic");
         }
 
         protected override void Update(GameTime gameTime)
@@ -131,6 +129,8 @@ namespace Cubo_o_n_anti_cube
                 PlayerMovement();
 
                 GameBorder();
+
+
             }
             //Timer & health
             if (TimeTheNumber > 1)
@@ -199,7 +199,6 @@ namespace Cubo_o_n_anti_cube
             {
                 ChangeSceneMethod(1);
                 SpottedAlert.Play();
-                MediaPlayer.Play(InGameMusic);
             }
             spriteBatch.End();
         }
@@ -268,10 +267,6 @@ namespace Cubo_o_n_anti_cube
                 default:
                     break;
             }
-            if (AntiCubeSpeed <= 0.0735f)
-            {
-                AntiCubeSpeed += 0.0001f;
-            }
             if (Keyboardinput.IsKeyDown(Keys.N) && OldKeyboardInput.IsKeyUp(Keys.N) && Scene == 0)
             {
                 Difficulty--;
@@ -307,8 +302,10 @@ namespace Cubo_o_n_anti_cube
                 AnticubePlacement.X += DifferenceX * AntiCubeSpeed;
                 AnticubePlacement.Y += DifferenceY * AntiCubeSpeed;
             }
-
-
+            if (AntiCubeSpeed <= 0.0735f)
+            {
+                AntiCubeSpeed += 0.0001f / 120f;
+            }
         }
         void PlayerMovement()
         {

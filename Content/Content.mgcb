@@ -75,12 +75,6 @@
 /processorParam:TextureFormat=Color
 /build:Grassfieldgreen.jpg
 
-#begin InGameMusic.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:InGameMusic.mp3
-
 #begin tindeck_1.mp3
 /importer:Mp3Importer
 /processor:SoundEffectProcessor
