@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Audio;
 using System.Threading;
-
+using System.Diagnostics;
 
 namespace Cubo_o_n_anti_cube
 {
@@ -22,8 +22,10 @@ namespace Cubo_o_n_anti_cube
         Rectangle MainCubeRectangle;
 
         Vector2 MainCubePlacement = new Vector2(0, 440);
+        Rectangle MainCubeStartPlacement;
         Vector2 AnticubePlacement = new Vector2(760, 440);
 
+        Vector2 AntiCubeStartPlacement;
         //Input
         KeyboardState OldKeyboardInput = Keyboard.GetState();
         KeyboardState Keyboardinput = Keyboard.GetState();
@@ -74,7 +76,6 @@ namespace Cubo_o_n_anti_cube
         string ScoreTheString = ("Score:");
         string HighscoreTheString = ("Highscore:");
         
-
         
         public Game1()
         {
@@ -86,6 +87,8 @@ namespace Cubo_o_n_anti_cube
         {
             //Sprite rectangles
             MainCubeRectangle = new Rectangle(0, 440, 40, 40);
+            AntiCubeStartPlacement = AnticubePlacement;
+            MainCubeStartPlacement = MainCubeRectangle;
 
             MediaPlayer.IsRepeating = true;
 
@@ -153,6 +156,7 @@ namespace Cubo_o_n_anti_cube
         protected override void Draw(GameTime gameTime)
         {
             //Change scene
+            Debug.WriteLine(Scene);
             switch (Scene)
             {
                 case 0:
@@ -164,9 +168,6 @@ namespace Cubo_o_n_anti_cube
                 case 2:
                     GameScoreSystem();
                     DrawEndScreen();
-                    break;
-                case 3:
-                    DrawMenu();
                     break;
                 default:
                     break;
@@ -226,21 +227,26 @@ namespace Cubo_o_n_anti_cube
         void DrawEndScreen()
         {
             //End screen
-            
+
             GraphicsDevice.Clear(Color.MediumAquamarine);
             spriteBatch.Begin();
+
             spriteBatch.DrawString(AnyButtonFont, SpaceToTryAgain, AnybuttonPlacement, Color.Black);
             spriteBatch.DrawString(SideMessages, Lifetimer.ToString(), TimerPlacement, Color.DarkGreen);
             spriteBatch.DrawString(SideMessages, TimeTheString, TimeTheStringPlacement, Color.Black);
             spriteBatch.DrawString(SideMessages, Score.ToString(), ScorePlacement, Color.Black);
             spriteBatch.DrawString(SideMessages, ScoreTheString, ScoreTheStringPlacement, Color.Black);
-            if (highscore > 0)
+
+            if (highscore >= Score && highscore > 0)
             {
                 spriteBatch.DrawString(SideMessages, highscore.ToString(), HighscorePlacement, Color.Black);
                 spriteBatch.DrawString(SideMessages, HighscoreTheString, HighscoretheStringPlacement, Color.Black);
             }
             if (SpacePressed())
             {
+                Health = 1;
+                AnticubePlacement = AntiCubeStartPlacement;
+                MainCubeRectangle = MainCubeStartPlacement;
                 ChangeSceneMethod(0);
             }
             spriteBatch.End();
@@ -306,7 +312,7 @@ namespace Cubo_o_n_anti_cube
         bool SpacePressed()
         {
             //Checking if space is pressed when starting the game in the main menu
-            if (Keyboardinput.IsKeyDown(Keys.Space) && OldKeyboardInput.IsKeyDown(Keys.Space))
+            if (Keyboardinput.IsKeyDown(Keys.Space) && OldKeyboardInput.IsKeyUp(Keys.Space))
             {
                 return true;
             }
