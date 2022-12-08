@@ -126,6 +126,7 @@ namespace Cubo_o_n_anti_cube
 
                 DifficultySettings();
             }
+
             //Gamerules
             if (Scene == 1)
             {
@@ -332,7 +333,7 @@ namespace Cubo_o_n_anti_cube
             }
             if (Lifetimer >= 4)
             {
-                AnticubePlacement.X += DifferenceX * AntiCubeSpeed;
+                AnticubePlacement.X += DifferenceX * AntiCubeSpeed + 1;
                 AnticubePlacement.Y += DifferenceY * AntiCubeSpeed;
             }
             if (AntiCubeSpeed <= 0.0735f)
