@@ -82,7 +82,7 @@ namespace Cubo_o_n_anti_cube
         }
         protected override void Initialize()
         {
-            //Sprite rectangles
+            //Sprite rectangles decleration & Start placement declaration
             MainCubeRectangle = new Rectangle(0, 440, 40, 40);
             AntiCubeStartPlacement = AnticubePlacement;
             MainCubeStartPlacement = MainCubeRectangle;
@@ -101,7 +101,7 @@ namespace Cubo_o_n_anti_cube
             AnyButtonFont = Content.Load<SpriteFont>("Arial");
             Skully = Content.Load<Texture2D>("Dryskully");
             Background = Content.Load <Texture2D>("Grassfieldgreen");
-            //Music Credit: SoundImage:org
+            //Sound effect Credit: https://www.myinstants.com/en/instant/metal-gear-solid-alert/
             SpottedAlert = Content.Load<SoundEffect>("tindeck_1");
         }
         protected override void Update(GameTime gameTime)
@@ -117,7 +117,6 @@ namespace Cubo_o_n_anti_cube
             {
                 TimeTheNumber = 0;
                 Lifetimer = 0;
-
                 DifficultySettings();
             }
             //Gamerules
@@ -203,7 +202,6 @@ namespace Cubo_o_n_anti_cube
         void DrawGame()
         {
             GraphicsDevice.Clear(Color.LightGreen);
-
             //Load up all the sprites and messages when starting the game
             spriteBatch.Begin();
             spriteBatch.Draw(Background, TopleftSide, Color.White);
