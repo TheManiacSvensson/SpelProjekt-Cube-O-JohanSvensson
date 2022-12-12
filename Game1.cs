@@ -333,7 +333,7 @@ namespace Cubo_o_n_anti_cube
             }
             if (Lifetimer >= 4)
             {
-                AnticubePlacement.X += DifferenceX * AntiCubeSpeed + 1;
+                AnticubePlacement.X += DifferenceX * AntiCubeSpeed + 4/3;
                 AnticubePlacement.Y += DifferenceY * AntiCubeSpeed;
             }
             if (AntiCubeSpeed <= 0.0735f)
