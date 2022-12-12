@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Audio;
 using System.Threading;
 using System.Diagnostics;
+using System;
 
 namespace Cubo_o_n_anti_cube
 {
@@ -19,13 +20,15 @@ namespace Cubo_o_n_anti_cube
         Texture2D MainCube;
         Texture2D AntiCube;
         Texture2D Skully;
-
+        Texture2D Speedboost;
         //SpritePlacement & rectangles
         Rectangle MainCubeRectangle;
         Vector2 MainCubePlacement = new Vector2(0, 440);
         Rectangle MainCubeStartPlacement;
         Vector2 AnticubePlacement = new Vector2(760, 440);
         Vector2 AntiCubeStartPlacement;
+        Rectangle SpeedBoostRectanglePlacement;
+
 
         //Input
         KeyboardState OldKeyboardInput = Keyboard.GetState();
@@ -40,6 +43,7 @@ namespace Cubo_o_n_anti_cube
         int Score = 0;
         int highscore;
         float AntiCubeSpeed = 0.040f;
+        Random Chance = new Random(133780085);
 
         //Soundeffects & Music
         SoundEffect SpottedAlert;
@@ -62,7 +66,6 @@ namespace Cubo_o_n_anti_cube
         Vector2 WinMessagePlacement = new Vector2(380, 42);
         Vector2 EndTimerPlacement = new Vector2(380, 60);
         Vector2 AnybuttonPlacement = new Vector2(240, 240);
-
         //Messages
         string AnybuttonMessage = ("PRESS SPACE TO LAUNCH GAME!");
         string TheRules = ("The rules are simple... Survive as long as you can and don't get caught");
@@ -94,12 +97,13 @@ namespace Cubo_o_n_anti_cube
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            //Sprites & Fonts
+            //Sprites, Fonts & Background loading
             MainCube = Content.Load<Texture2D>("Cube-O");
             AntiCube = Content.Load<Texture2D>("Anti-cube");
             SideMessages = Content.Load<SpriteFont>("File");
-            AnyButtonFont = Content.Load<SpriteFont>("Arial");
             Skully = Content.Load<Texture2D>("Dryskully");
+            Speedboost = Content.Load<Texture2D>("Speedboost");
+            AnyButtonFont = Content.Load<SpriteFont>("Arial");
             Background = Content.Load <Texture2D>("Grassfieldgreen");
             //Sound effect Credit: https://www.myinstants.com/en/instant/metal-gear-solid-alert/
             SpottedAlert = Content.Load<SoundEffect>("tindeck_1");
@@ -144,7 +148,6 @@ namespace Cubo_o_n_anti_cube
         protected override void Draw(GameTime gameTime)
         {
             //Change scene
-            Debug.WriteLine(Scene);
             switch (Scene)
             {
                 case 0:
@@ -209,6 +212,11 @@ namespace Cubo_o_n_anti_cube
             spriteBatch.DrawString(SideMessages, Lifetimer.ToString(), TimerPlacement, Color.Black);
             spriteBatch.Draw(MainCube, MainCubeRectangle, Color.White);
             spriteBatch.Draw(AntiCube, AnticubePlacement, Color.White);
+            if (Scene == 1 && Lifetimer % 10 == 0)
+            {
+                SpeedBoostSpawner();
+                spriteBatch.Draw(Speedboost, SpeedBoostRectanglePlacement, Color.White);
+            }
             spriteBatch.End();
         }
         void DrawEndScreen()
@@ -247,6 +255,13 @@ namespace Cubo_o_n_anti_cube
         {
             //Change the scene
             Scene = ChangeSceneTo;
+        }
+        void SpeedBoostSpawner()
+        {
+            int NextSpeedBoostX = Chance.Next(0, 800 - MainCube.Width);
+            int NextSpeedBoostY = Chance.Next(0, 480 - MainCube.Height);
+            SpeedBoostRectanglePlacement = new Rectangle(NextSpeedBoostX, NextSpeedBoostY, 40, 40);
+
         }
         void DifficultySettings ()
         {
@@ -323,6 +338,29 @@ namespace Cubo_o_n_anti_cube
         }
         void PlayerMovement()
         {
+
+                if (MainCubeRectangle.Intersects(SpeedBoostRectanglePlacement))
+                {
+                      for (int i = 0; i < 60; i++)
+                      {
+                             if (Keyboardinput.IsKeyDown(Keys.W) || Keyboardinput.IsKeyDown(Keys.Up))
+                             {
+                                    MainCubeRectangle.Y -= 6;
+                             }
+                            if (Keyboardinput.IsKeyDown(Keys.A) || Keyboardinput.IsKeyDown(Keys.Left))
+                            {
+                                MainCubeRectangle.X -= 6;
+                            }
+                            if (Keyboardinput.IsKeyDown(Keys.S) || Keyboardinput.IsKeyDown(Keys.Down))
+                            {
+                                MainCubeRectangle.Y += 6;
+                            }
+                            if (Keyboardinput.IsKeyDown(Keys.D) || Keyboardinput.IsKeyDown(Keys.Right))
+                            {
+                                MainCubeRectangle.X += 6;
+                            }
+                      }
+                }
             //Movement
             if (Keyboardinput.IsKeyDown(Keys.W) || Keyboardinput.IsKeyDown(Keys.Up))
             {
