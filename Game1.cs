@@ -19,13 +19,14 @@ namespace Cubo_o_n_anti_cube
         Texture2D MainCube;
         Texture2D AntiCube;
         Texture2D Skully;
-        Rectangle MainCubeRectangle;
 
+        //SpritePlacement & rectangles
+        Rectangle MainCubeRectangle;
         Vector2 MainCubePlacement = new Vector2(0, 440);
         Rectangle MainCubeStartPlacement;
         Vector2 AnticubePlacement = new Vector2(760, 440);
-
         Vector2 AntiCubeStartPlacement;
+
         //Input
         KeyboardState OldKeyboardInput = Keyboard.GetState();
         KeyboardState Keyboardinput = Keyboard.GetState();
@@ -62,7 +63,6 @@ namespace Cubo_o_n_anti_cube
         Vector2 EndTimerPlacement = new Vector2(380, 60);
         Vector2 AnybuttonPlacement = new Vector2(240, 240);
 
-
         //Messages
         string AnybuttonMessage = ("PRESS SPACE TO LAUNCH GAME!");
         string TheRules = ("The rules are simple... Survive as long as you can and don't get caught");
@@ -75,14 +75,11 @@ namespace Cubo_o_n_anti_cube
         string DifficultyTheString = ("Difficulty:");
         string ScoreTheString = ("Score:");
         string HighscoreTheString = ("Highscore:");
-        
-        
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
         }
-
         protected override void Initialize()
         {
             //Sprite rectangles
@@ -94,7 +91,6 @@ namespace Cubo_o_n_anti_cube
 
             base.Initialize();
         }
-
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -105,11 +101,9 @@ namespace Cubo_o_n_anti_cube
             AnyButtonFont = Content.Load<SpriteFont>("Arial");
             Skully = Content.Load<Texture2D>("Dryskully");
             Background = Content.Load <Texture2D>("Grassfieldgreen");
-
             //Music Credit: SoundImage:org
             SpottedAlert = Content.Load<SoundEffect>("tindeck_1");
         }
-
         protected override void Update(GameTime gameTime)
         {
             //Exit
@@ -126,18 +120,12 @@ namespace Cubo_o_n_anti_cube
 
                 DifficultySettings();
             }
-
             //Gamerules
             if (Scene == 1)
             {
-
                 AiMovement();
-
                 PlayerMovement();
-
                 GameBorder();
-
-
             }
             //Timer & health
             if (TimeTheNumber > 1)
@@ -228,16 +216,13 @@ namespace Cubo_o_n_anti_cube
         void DrawEndScreen()
         {
             //End screen
-
             GraphicsDevice.Clear(Color.MediumAquamarine);
             spriteBatch.Begin();
-
             spriteBatch.DrawString(AnyButtonFont, SpaceToTryAgain, AnybuttonPlacement, Color.Black);
             spriteBatch.DrawString(SideMessages, Lifetimer.ToString(), TimerPlacement, Color.DarkGreen);
             spriteBatch.DrawString(SideMessages, TimeTheString, TimeTheStringPlacement, Color.Black);
             spriteBatch.DrawString(SideMessages, Score.ToString(), ScorePlacement, Color.Black);
             spriteBatch.DrawString(SideMessages, ScoreTheString, ScoreTheStringPlacement, Color.Black);
-
             if (highscore >= Score && highscore > 0)
             {
                 spriteBatch.DrawString(SideMessages, highscore.ToString(), HighscorePlacement, Color.Black);
@@ -255,7 +240,6 @@ namespace Cubo_o_n_anti_cube
         void GameScoreSystem()
         {
             Score = Difficulty * Lifetimer;
-
             if (highscore < Score)
             {
                 highscore = Score;
@@ -296,8 +280,6 @@ namespace Cubo_o_n_anti_cube
                                         case 6:
                     Difficulty = 5;
                     break;
-
-
                 default:
                     break;
             }
