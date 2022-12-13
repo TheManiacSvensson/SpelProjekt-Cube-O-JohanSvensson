@@ -362,30 +362,34 @@ namespace Cubo_o_n_anti_cube
         {
             if (Scene == 1)
             {
-                if (MainCubeRectangle.Intersects(SpeedBoostRectanglePlacement))
+                if (SpeedBoostList.Count >= 1)
                 {
-                    for (int i = 0; i < 120; i++)
+                    if (MainCubeRectangle.Intersects(SpeedBoostRectanglePlacement))
                     {
-                        if (Keyboardinput.IsKeyDown(Keys.W) || Keyboardinput.IsKeyDown(Keys.Up))
+                        for (int i = 0; i < 90; i++)
                         {
-                            MainCubeRectangle.Y -= 2;
+                            if (Keyboardinput.IsKeyDown(Keys.W) || Keyboardinput.IsKeyDown(Keys.Up))
+                            {
+                                MainCubeRectangle.Y -= 2;
+                            }
+                            if (Keyboardinput.IsKeyDown(Keys.A) || Keyboardinput.IsKeyDown(Keys.Left))
+                            {
+                                MainCubeRectangle.X -= 2;
+                            }
+                            if (Keyboardinput.IsKeyDown(Keys.S) || Keyboardinput.IsKeyDown(Keys.Down))
+                            {
+                                MainCubeRectangle.Y += 2;
+                            }
+                            if (Keyboardinput.IsKeyDown(Keys.D) || Keyboardinput.IsKeyDown(Keys.Right))
+                            {
+                                MainCubeRectangle.X += 2;
+                            }
                         }
-                        if (Keyboardinput.IsKeyDown(Keys.A) || Keyboardinput.IsKeyDown(Keys.Left))
-                        {
-                            MainCubeRectangle.X -= 2;
-                        }
-                        if (Keyboardinput.IsKeyDown(Keys.S) || Keyboardinput.IsKeyDown(Keys.Down))
-                        {
-                            MainCubeRectangle.Y += 2;
-                        }
-                        if (Keyboardinput.IsKeyDown(Keys.D) || Keyboardinput.IsKeyDown(Keys.Right))
-                        {
-                            MainCubeRectangle.X += 2;
-                        }
+                        SpeedBoostList.Remove(SpeedBoostRectanglePlacement);
+                        UpdatesUntilNextBoost = UpdatesBetweenNewBoost;
                     }
-                    SpeedBoostList.Remove(SpeedBoostRectanglePlacement);
-                    UpdatesUntilNextBoost = UpdatesBetweenNewBoost;
                 }
+
             }
             //Movement
             if (Keyboardinput.IsKeyDown(Keys.W) || Keyboardinput.IsKeyDown(Keys.Up))
