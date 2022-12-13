@@ -218,7 +218,7 @@ namespace Cubo_o_n_anti_cube
             spriteBatch.DrawString(SideMessages, Lifetimer.ToString(), TimerPlacement, Color.Black);
             spriteBatch.Draw(MainCube, MainCubeRectangle, Color.White);
             spriteBatch.Draw(AntiCube, AnticubePlacement, Color.White);
-            if (SpeedBoostList.Count != 0)
+            if (SpeedBoostList.Count != 0 && UpdatesUntilNextBoost <= 600)
             {
                 spriteBatch.Draw(Speedboost, SpeedBoostRectanglePlacement, Color.White);
             }
@@ -282,7 +282,7 @@ namespace Cubo_o_n_anti_cube
             }
             else if (Scene != 1)
             {
-                UpdatesUntilNextBoost = 600;
+                UpdatesUntilNextBoost = UpdatesBetweenNewBoost;
                 if (SpeedBoostList.Count != 0)
                 {
                     SpeedBoostList.Remove(SpeedBoostRectanglePlacement);
