@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Audio;
-using System.Threading;
 using System.Diagnostics;
 using System;
 using System.Collections.Generic;
@@ -43,7 +42,7 @@ namespace Cubo_o_n_anti_cube
         int Difficulty = 0;
         int Scene = 0;
         int Score = 0;
-        int UpdatesBetweenNewBoost = 720;
+        int UpdatesBetweenNewBoost = 660;
         int UpdatesUntilNextBoost = 600;
         int highscore;
         float AntiCubeSpeed = 0.040f;
