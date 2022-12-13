@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Audio;
 using System.Threading;
 using System.Diagnostics;
 using System;
+using System.Collections.Generic;
 
 namespace Cubo_o_n_anti_cube
 {
@@ -34,13 +35,16 @@ namespace Cubo_o_n_anti_cube
         KeyboardState OldKeyboardInput = Keyboard.GetState();
         KeyboardState Keyboardinput = Keyboard.GetState();
 
-        //Ints & floats
+        //Ints, floats, Randoms & lists
+        List<Rectangle> SpeedBoostList = new List<Rectangle>();
         int Health = 1;
         int TimeTheNumber = 0;
         int Lifetimer = 0;
         int Difficulty = 0;
         int Scene = 0;
         int Score = 0;
+        int UpdatesBetweenNewBoost = 720;
+        int UpdatesUntilNextBoost = 600;
         int highscore;
         float AntiCubeSpeed = 0.040f;
         Random Chance = new Random(133780085);
@@ -126,9 +130,11 @@ namespace Cubo_o_n_anti_cube
             //Gamerules
             if (Scene == 1)
             {
+                SpeedBoostUpdater();
                 AiMovement();
                 PlayerMovement();
                 GameBorder();
+
             }
             //Timer & health
             if (TimeTheNumber > 1)
@@ -212,9 +218,8 @@ namespace Cubo_o_n_anti_cube
             spriteBatch.DrawString(SideMessages, Lifetimer.ToString(), TimerPlacement, Color.Black);
             spriteBatch.Draw(MainCube, MainCubeRectangle, Color.White);
             spriteBatch.Draw(AntiCube, AnticubePlacement, Color.White);
-            if (Scene == 1 && Lifetimer % 10 == 0)
+            if (SpeedBoostList.Count != 0)
             {
-                SpeedBoostSpawner();
                 spriteBatch.Draw(Speedboost, SpeedBoostRectanglePlacement, Color.White);
             }
             spriteBatch.End();
@@ -260,8 +265,29 @@ namespace Cubo_o_n_anti_cube
         {
             int NextSpeedBoostX = Chance.Next(0, 800 - MainCube.Width);
             int NextSpeedBoostY = Chance.Next(0, 480 - MainCube.Height);
-            SpeedBoostRectanglePlacement = new Rectangle(NextSpeedBoostX, NextSpeedBoostY, 40, 40);
+            SpeedBoostRectanglePlacement = new Rectangle(NextSpeedBoostX, NextSpeedBoostY, MainCube.Width, MainCube.Height);
+            SpeedBoostList.Add(SpeedBoostRectanglePlacement);
 
+        }
+        void SpeedBoostUpdater()
+        {
+            if (Scene == 1)
+            {
+                UpdatesUntilNextBoost--;
+                if (UpdatesUntilNextBoost <= 0)
+                {
+                    SpeedBoostSpawner();
+                    UpdatesUntilNextBoost = UpdatesBetweenNewBoost;
+                }
+            }
+            else if (Scene != 1)
+            {
+                UpdatesUntilNextBoost = 600;
+                if (SpeedBoostList.Count != 0)
+                {
+                    SpeedBoostList.Remove(SpeedBoostRectanglePlacement);
+                }
+            }
         }
         void DifficultySettings ()
         {
@@ -338,29 +364,32 @@ namespace Cubo_o_n_anti_cube
         }
         void PlayerMovement()
         {
-
+            if (Scene == 1)
+            {
                 if (MainCubeRectangle.Intersects(SpeedBoostRectanglePlacement))
                 {
-                      for (int i = 0; i < 60; i++)
-                      {
-                             if (Keyboardinput.IsKeyDown(Keys.W) || Keyboardinput.IsKeyDown(Keys.Up))
-                             {
-                                    MainCubeRectangle.Y -= 6;
-                             }
-                            if (Keyboardinput.IsKeyDown(Keys.A) || Keyboardinput.IsKeyDown(Keys.Left))
-                            {
-                                MainCubeRectangle.X -= 6;
-                            }
-                            if (Keyboardinput.IsKeyDown(Keys.S) || Keyboardinput.IsKeyDown(Keys.Down))
-                            {
-                                MainCubeRectangle.Y += 6;
-                            }
-                            if (Keyboardinput.IsKeyDown(Keys.D) || Keyboardinput.IsKeyDown(Keys.Right))
-                            {
-                                MainCubeRectangle.X += 6;
-                            }
-                      }
+                    for (int i = 0; i < 120; i++)
+                    {
+                        if (Keyboardinput.IsKeyDown(Keys.W) || Keyboardinput.IsKeyDown(Keys.Up))
+                        {
+                            MainCubeRectangle.Y -= 2;
+                        }
+                        if (Keyboardinput.IsKeyDown(Keys.A) || Keyboardinput.IsKeyDown(Keys.Left))
+                        {
+                            MainCubeRectangle.X -= 2;
+                        }
+                        if (Keyboardinput.IsKeyDown(Keys.S) || Keyboardinput.IsKeyDown(Keys.Down))
+                        {
+                            MainCubeRectangle.Y += 2;
+                        }
+                        if (Keyboardinput.IsKeyDown(Keys.D) || Keyboardinput.IsKeyDown(Keys.Right))
+                        {
+                            MainCubeRectangle.X += 2;
+                        }
+                    }
+                    SpeedBoostList.Remove(SpeedBoostRectanglePlacement);
                 }
+            }
             //Movement
             if (Keyboardinput.IsKeyDown(Keys.W) || Keyboardinput.IsKeyDown(Keys.Up))
             {
