@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Audio;
-using System.Diagnostics;
 using System;
 using System.Collections.Generic;
 
@@ -28,14 +27,13 @@ namespace Cubo_o_n_anti_cube
         Vector2 AnticubePlacement = new Vector2(760, 440);
         Vector2 AntiCubeStartPlacement;
         Rectangle SpeedBoostRectanglePlacement;
-
+        List<Rectangle> SpeedBoostList = new List<Rectangle>();
 
         //Input
         KeyboardState OldKeyboardInput = Keyboard.GetState();
         KeyboardState Keyboardinput = Keyboard.GetState();
 
         //Ints, floats, Randoms & lists
-        List<Rectangle> SpeedBoostList = new List<Rectangle>();
         int Health = 1;
         int TimeTheNumber = 0;
         int Lifetimer = 0;
@@ -54,7 +52,7 @@ namespace Cubo_o_n_anti_cube
         //Message placement & fonts
         SpriteFont SideMessages;
         SpriteFont AnyButtonFont;
-        Vector2 TopleftSide = new Vector2(0, 0);
+        Vector2 BackgroundVector = new Vector2(0, 10);
         Vector2 TimerPlacement = new Vector2(70, 0);
         Vector2 TimeTheStringPlacement = new Vector2(18, 0);
         Vector2 ScorePlacement = new Vector2(90, 30);
@@ -64,7 +62,6 @@ namespace Cubo_o_n_anti_cube
         Vector2 DifficultyPlacement = new Vector2(96, 21);
         Vector2 DifficultyTheStringPlacement = new Vector2(10, 20);
         Vector2 DifficultyPromptPlacement = new Vector2(160, 22);
-        Vector2 OhnoMessagePlacement = new Vector2(0, 400);
         Vector2 RulePlacement = new Vector2(100, 0);
         Vector2 WinMessagePlacement = new Vector2(380, 42);
         Vector2 EndTimerPlacement = new Vector2(380, 60);
@@ -212,7 +209,7 @@ namespace Cubo_o_n_anti_cube
             GraphicsDevice.Clear(Color.LightGreen);
             //Load up all the sprites and messages when starting the game
             spriteBatch.Begin();
-            spriteBatch.Draw(Background, TopleftSide, Color.White);
+            spriteBatch.Draw(Background, BackgroundVector, Color.White);
             spriteBatch.DrawString(SideMessages, TimeTheString, TimeTheStringPlacement, Color.Black);
             spriteBatch.DrawString(SideMessages, Lifetimer.ToString(), TimerPlacement, Color.Black);
             spriteBatch.Draw(MainCube, MainCubeRectangle, Color.White);
