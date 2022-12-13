@@ -276,8 +276,8 @@ namespace Cubo_o_n_anti_cube
                 UpdatesUntilNextBoost--;
                 if (UpdatesUntilNextBoost <= 0)
                 {
-                    SpeedBoostSpawner();
                     UpdatesUntilNextBoost = UpdatesBetweenNewBoost;
+                    SpeedBoostSpawner();
                 }
             }
             else if (Scene != 1)
@@ -388,6 +388,7 @@ namespace Cubo_o_n_anti_cube
                         }
                     }
                     SpeedBoostList.Remove(SpeedBoostRectanglePlacement);
+                    UpdatesUntilNextBoost = UpdatesBetweenNewBoost;
                 }
             }
             //Movement
