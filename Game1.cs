@@ -121,6 +121,7 @@ namespace Cubo_o_n_anti_cube
                 Lifetimer = 0;
                 UpdatesUntilNextBoost = 600;
                 DifficultySettings();
+                SpeedBoostReset();
             }
             //Gamerules
             if (Scene == 1)
@@ -274,7 +275,10 @@ namespace Cubo_o_n_anti_cube
                     SpeedBoostSpawner();
                 }
             }
-            else if (Scene != 1)
+        }
+        void SpeedBoostReset()
+        {
+            if (Scene != 1)
             {
                 UpdatesUntilNextBoost = UpdatesBetweenNewBoost;
                 if (SpeedBoostList.Count != 0)
