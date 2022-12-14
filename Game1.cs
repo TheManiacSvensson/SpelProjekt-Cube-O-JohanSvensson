@@ -40,7 +40,7 @@ namespace Cubo_o_n_anti_cube
         int Difficulty = 0;
         int Scene = 0;
         int Score = 0;
-        int UpdatesBetweenNewBoost = 660;
+        int UpdatesBetweenNewBoost = 600;
         int UpdatesUntilNextBoost = 0;
         int highscore;
         float AntiCubeSpeed = 0.040f;
@@ -119,7 +119,6 @@ namespace Cubo_o_n_anti_cube
             {
                 TimeTheNumber = 0;
                 Lifetimer = 0;
-                UpdatesUntilNextBoost = 600;
                 DifficultySettings();
                 SpeedBoostReset();
             }
@@ -269,7 +268,7 @@ namespace Cubo_o_n_anti_cube
             if (Scene == 1)
             {
                 UpdatesUntilNextBoost--;
-                if (UpdatesUntilNextBoost <= 0)
+                if (UpdatesUntilNextBoost <= 0 && Difficulty != 0)
                 {
                     UpdatesUntilNextBoost = UpdatesBetweenNewBoost;
                     SpeedBoostSpawner();
@@ -278,14 +277,15 @@ namespace Cubo_o_n_anti_cube
         }
         void SpeedBoostReset()
         {
-            if (Scene != 1)
-            {
                 UpdatesUntilNextBoost = UpdatesBetweenNewBoost;
-                if (SpeedBoostList.Count != 0)
+                if (SpeedBoostList.Count >= 2)
+                {
+                    SpeedBoostList.Clear();
+                }
+                if (SpeedBoostList.Count == 1)
                 {
                     SpeedBoostList.Remove(SpeedBoostRectanglePlacement);
                 }
-            }
         }
         void DifficultySettings ()
         {
@@ -366,7 +366,7 @@ namespace Cubo_o_n_anti_cube
                 {
                     if (MainCubeRectangle.Intersects(SpeedBoostRectanglePlacement))
                     {
-                        for (int i = 0; i < 90; i++)
+                        for (int i = 0; i < 60; i++)
                         {
                             if (Keyboardinput.IsKeyDown(Keys.W) || Keyboardinput.IsKeyDown(Keys.Up))
                             {
@@ -385,7 +385,7 @@ namespace Cubo_o_n_anti_cube
                                 MainCubeRectangle.X += 2;
                             }
                         }
-                        SpeedBoostList.Remove(SpeedBoostRectanglePlacement);
+                        SpeedBoostList.Clear();
                         UpdatesUntilNextBoost = UpdatesBetweenNewBoost;
                     }
                 }
