@@ -22,7 +22,6 @@ namespace Cubo_o_n_anti_cube
         Texture2D Speedboost;
         //SpritePlacement & rectangles
         Rectangle MainCubeRectangle;
-        Vector2 MainCubePlacement = new Vector2(0, 440);
         Rectangle MainCubeStartPlacement;
         Vector2 AnticubePlacement = new Vector2(760, 440);
         Vector2 AntiCubeStartPlacement;
@@ -37,7 +36,7 @@ namespace Cubo_o_n_anti_cube
         int Health = 1;
         int TimeTheNumber = 0;
         int Lifetimer = 0;
-        int Difficulty = 0;
+        int Difficulty = 1;
         int Scene = 0;
         int Score = 0;
         int UpdatesBetweenNewBoost = 600;
