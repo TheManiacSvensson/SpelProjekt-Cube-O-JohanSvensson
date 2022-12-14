@@ -41,7 +41,7 @@ namespace Cubo_o_n_anti_cube
         int Scene = 0;
         int Score = 0;
         int UpdatesBetweenNewBoost = 660;
-        int UpdatesUntilNextBoost = 600;
+        int UpdatesUntilNextBoost = 0;
         int highscore;
         float AntiCubeSpeed = 0.040f;
         Random Chance = new Random(133780085);
@@ -89,9 +89,7 @@ namespace Cubo_o_n_anti_cube
             MainCubeRectangle = new Rectangle(0, 440, 40, 40);
             AntiCubeStartPlacement = AnticubePlacement;
             MainCubeStartPlacement = MainCubeRectangle;
-
-            MediaPlayer.IsRepeating = true;
-
+            UpdatesUntilNextBoost = 600;
             base.Initialize();
         }
         protected override void LoadContent()
@@ -116,11 +114,12 @@ namespace Cubo_o_n_anti_cube
             //Input refresh
             OldKeyboardInput = Keyboardinput;
             Keyboardinput = Keyboard.GetState();
-            //Stop timer update in main menu
+            //Stop timer updates in main menu & fixes a bug with the boost spawning earlier depending on the earlier run
             if (Scene == 0)
             {
                 TimeTheNumber = 0;
                 Lifetimer = 0;
+                UpdatesUntilNextBoost = 600;
                 DifficultySettings();
             }
             //Gamerules
@@ -130,7 +129,6 @@ namespace Cubo_o_n_anti_cube
                 AiMovement();
                 PlayerMovement();
                 GameBorder();
-
             }
             //Timer & health
             if (TimeTheNumber > 1)
@@ -360,8 +358,6 @@ namespace Cubo_o_n_anti_cube
         }
         void PlayerMovement()
         {
-            if (Scene == 1)
-            {
                 if (SpeedBoostList.Count >= 1)
                 {
                     if (MainCubeRectangle.Intersects(SpeedBoostRectanglePlacement))
@@ -389,8 +385,6 @@ namespace Cubo_o_n_anti_cube
                         UpdatesUntilNextBoost = UpdatesBetweenNewBoost;
                     }
                 }
-
-            }
             //Movement
             if (Keyboardinput.IsKeyDown(Keys.W) || Keyboardinput.IsKeyDown(Keys.Up))
             {
