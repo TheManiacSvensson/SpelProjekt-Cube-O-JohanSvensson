@@ -145,7 +145,7 @@ namespace Cubo_o_n_anti_cube
         }
         protected override void Draw(GameTime gameTime)
         {
-            //Change scene
+            //Change scene switch
             switch (Scene)
             {
                 case 0:
